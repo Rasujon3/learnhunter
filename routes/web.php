@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Example\FirstController;
 use App\Http\Controllers\Example\SecondController;
 use App\Http\Controllers\LearnController;
-use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +16,7 @@ use App\Http\Controllers\PhotoController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     // dd(app());
@@ -46,20 +45,20 @@ Route::get('/validate', function () {
 Route::get('/about', [FirstController::class, 'index'])->name('about.us');
 Route::get('/laravel', [FirstController::class, 'laravel'])->name('laravel');
 Route::get('/testone', [SecondController::class, 'test']);
-Route::get('/testSession', function(Request $request) {
+Route::get('/testSession', function (Request $request) {
     // session(['name' => 'sujon']);
     // $request->session()->put('age', 24);
-    $logfile=file(storage_path().'/logs/contact.log');
-    $collection=[];
-    foreach ($logfile as $line_number=>$line) {
-        $collection[]=array('line'=>$line_number,'content'=>htmlspecialchars($line));
+    $logfile = file(storage_path() . '/logs/contact.log');
+    $collection = [];
+    foreach ($logfile as $line_number => $line) {
+        $collection[] = array('line' => $line_number, 'content' => htmlspecialchars($line));
     }
     dd($collection);
 });
-Route::get('/all', function(Request $request) {
+Route::get('/all', function (Request $request) {
     // session(['name' => 'sujon']);
-  return  $request->session()->all();
-$request->session()->flush();
+    return $request->session()->all();
+    $request->session()->flush();
 });
 
 //__invokable route__//
@@ -67,12 +66,13 @@ Route::get('/testinvo', LearnController::class);
 
 Route::get('/contact', function () {
     // dd(app());
-    return view('contact');
+    // return view('contact');
+    abort(401);
 
 })->name('contact.us');
 
 Route::get('/country', [FirstController::class, 'country'])->name('country')->middleware('country');
- 
+
 // Route::resource('photos', PhotoController::class);
 
 // Route::get('/country', function () {
@@ -92,8 +92,8 @@ Route::get('/test', function () {
     app()->make("first_service_helper");
 });
 
-Route::post('/student/store',[FirstController::class,'Studentstore'])->name('student.store');
-Route::post('/store/contact',[FirstController::class,'store'])->name('store.contact');
+Route::post('/student/store', [FirstController::class, 'Studentstore'])->name('student.store');
+Route::post('/store/contact', [FirstController::class, 'store'])->name('store.contact');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -105,4 +105,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
